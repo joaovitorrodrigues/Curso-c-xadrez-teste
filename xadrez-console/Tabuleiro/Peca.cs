@@ -12,9 +12,9 @@ namespace tabuleiro
         public Tabuleiro Tab { get; set; }
 
 
-        public Peca (Posicao posicao, Tabuleiro tab, Cor cor)
+        public Peca ( Tabuleiro tab, Cor cor)
         {
-            Posicao = posicao;
+            Posicao = null;
             Tab = tab;
             Cor = cor;
             QtdMovimentos = 0;

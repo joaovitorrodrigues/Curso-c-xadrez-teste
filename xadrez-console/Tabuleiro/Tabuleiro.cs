@@ -8,22 +8,27 @@ namespace tabuleiro
     {
         public int Linhas { get; set; }
         public int Colunas { get; set; }
-        private Peca[,] pecas;
+        private Peca[,] Pecas;
         
 
         public Tabuleiro(int linhas, int colunas)
         {
             Linhas = linhas;
             Colunas = colunas;
-            pecas = new Peca[Linhas, Colunas];
+            Pecas = new Peca[Linhas, Colunas];
 
         }
 
         public Peca Peca(int linha, int coluna)
         {
-            return pecas[linha, coluna];
+            return Pecas[linha, coluna];
         }
 
+        public void ColocarPeca(Peca p, Posicao pos)
+        {
+            Pecas[pos.Linha, pos.Coluna] = p;
+            p.Posicao = pos;
+        }
 
     }
 }
