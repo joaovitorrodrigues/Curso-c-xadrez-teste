@@ -11,16 +11,23 @@ namespace xadrez_console
         public static void ImprimirPartida(PartidaDeXadrez partida)
         {
             ImprimirTabuleiro(partida.Tab);
-            Console.WriteLine( );
+            Console.WriteLine();
             ImprimirPecasCapturadas(partida);
             Console.WriteLine();
-            Console.WriteLine("Turno: "+partida.Turno);
-            Console.WriteLine("Aguardando jogada: "+partida.JogadorAtual);
-            if (partida.Xeque)
+            Console.WriteLine("Turno: " + partida.Turno);
+            if (!partida.Terminada)
             {
-                Console.WriteLine("Xeque!");
+                Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
+                if (partida.Xeque)
+                {
+                    Console.WriteLine("Xeque!");
+                }
             }
-
+            else
+            {
+                Console.WriteLine("Xequemate!");
+                Console.WriteLine("Vencedor: " + partida.JogadorAtual);
+            }
         }
 
         public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
@@ -40,18 +47,18 @@ namespace xadrez_console
         public static void ImprimirConjunto(HashSet<Peca> conjunto)
         {
             Console.Write("[");
-            foreach(Peca x in conjunto)
+            foreach (Peca x in conjunto)
             {
-                Console.Write(x+" ");
+                Console.Write(x + " ");
             }
             Console.Write("]");
         }
         public static void ImprimirTabuleiro(Tabuleiro tab)
         {
-            for(int i = 0; i < tab.Linhas; i++)
+            for (int i = 0; i < tab.Linhas; i++)
             {
-                Console.Write(8-i+" ");
-                for( int j = 0; j < tab.Colunas; j++)
+                Console.Write(8 - i + " ");
+                for (int j = 0; j < tab.Colunas; j++)
                 {
                     ImprimirPeca(tab.Peca(i, j));
                 }
@@ -75,7 +82,8 @@ namespace xadrez_console
                     if (posicoesPossiveis[i, j])
                     {
                         Console.BackgroundColor = fundoAlterado;
-                    } else
+                    }
+                    else
                     {
                         Console.BackgroundColor = fundoOriginal;
                     }
@@ -126,5 +134,5 @@ namespace xadrez_console
         }
     }
 
- 
+
 }

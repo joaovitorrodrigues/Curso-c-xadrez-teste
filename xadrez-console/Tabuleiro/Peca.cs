@@ -36,10 +36,10 @@ namespace tabuleiro
                     if(mat[i,j] == true)
                     {
                         return true;
-                    } else
-                    {
+                    } 
+                    
                         
-                    }
+                    
                 }
             }
             return false;

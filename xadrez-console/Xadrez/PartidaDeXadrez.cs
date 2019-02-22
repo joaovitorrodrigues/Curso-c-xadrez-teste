@@ -45,6 +45,37 @@ namespace xadrez
 
         }
 
+        public bool TesteXequeMate(Cor cor)
+        {
+            if (!EstaEmXeque(cor))
+            {
+                return false;
+            }
+            foreach (Peca x in PecasEmJogo(cor))
+            {
+                bool[,] mat = x.MovimentosPossiveis();
+                for (int i = 0; i < Tab.Linhas; i++)
+                { 
+                    for (int j = 0; j < Tab.Colunas; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Posicao origem = x.Posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca capturada = ExecutaMovimento(origem, destino);
+                            bool testeXeque = EstaEmXeque(cor);
+                            DesfazMovimento(origem, destino, capturada);
+                            if (!testeXeque)
+                            {
+                                return false;
+                            } 
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         public void DesfazMovimento(Posicao origem, Posicao destino, Peca peca)
         {
             Peca p = Tab.RetirarPeca(destino);
@@ -59,8 +90,6 @@ namespace xadrez
 
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
-
-
             Peca pecaCapturada = ExecutaMovimento(origem, destino);
             if (EstaEmXeque(JogadorAtual))
             {
@@ -70,12 +99,21 @@ namespace xadrez
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
-            } else
+            }
+            else
             {
                 Xeque = false;
             }
-            Turno++;
-            MudaJogador();
+
+            if (TesteXequeMate(Adversaria(JogadorAtual)))
+            {
+                Terminada = true;
+            }
+            else
+            {
+                Turno++;
+                MudaJogador();
+            }
         }
 
         public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
@@ -85,7 +123,7 @@ namespace xadrez
                 throw new TabuleiroException("Posição de destino inválida!");
             }
         }
-
+        
         private void MudaJogador()
         {
             if (JogadorAtual == Cor.Branca)
